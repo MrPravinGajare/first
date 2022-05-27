@@ -1,0 +1,93 @@
+***Practical 2***
+su hduser
+sudo mkdir mapreduce_avcoe
+cd mapreduce_avcoe
+cd ..
+sudo chown -R hduser mapreduce_avcoe/
+sudo cp /home/avcoe/Desktop/my/* /home/hduser/mapreduce_avcoe
+ls
+ls -ltr
+ls -al
+sudo chomd +r *-*
+export CLASSPATH="$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.9.0.jar:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-common-2.9.0.jar:$HADOOP_HOME/share/hadoop/common/hadoop-common-2.9.0.jar:~/mapreduce_avcoe/SalesCountry/*:$HADOOP_HOME/lib/*"
+
+javac -d . SaleMapper.java SalesCountryReducer.java SalesCountryDriver.java
+
+ls
+cd SalesCountry/
+ls
+cd ..
+sudo gedit Manifest.txt
+//add following lines to it
+Main-Class: SalesCountry.SalesCountryDriver
+jar -cfm ProductSalePerCountry.jar Manifest.txt SalesCountry/*.class
+ls
+cd
+start-dfs.sh
+start-yarn.sh
+jps
+cd mapreduce_avcoe/
+sudo mkdir ~/input
+sudo cp SalesJan2009.csv ~/input/
+$HADOOP_HOME/bin/hdfs dfs -put ~/input /
+$HADOOP_HOME/bin/hadoop jar ProductSalePerCountry.jar /input /output_avcoe
+$HADOOP_HOME/bin/hdfs dfs -cat /output_avcoe/part-00000
+localhost:50070
+
+***practical 4***
+import numpy as np
+import pandas as pd
+a=pd.read_csv('1.csv')
+a
+
+import pandas as pd
+data = {"Roll-num": [10,20,30,40,50,60,70], "Age":[12,14,13,12,14,13,15],
+"NAME":['John','Camili','Rheana','Joseph','Amanti','Alexa','Siri']}
+block = pd.DataFrame(data)
+print("Original Data frame:\n")
+print(block)
+
+block.loc[[0,1,3]]
+block.loc[0:3]
+
+import numpy as np
+arr = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+newarr = arr.reshape(4, 3)
+print(newarr)
+
+***Practical 5***
+import pandas as pd
+#importing the dataset by reading the csv file
+data = pd.read_csv(Iris.csv)
+#displaying the first five rows of dataset
+data.head()
+#displayinf last five rows of dataset
+data.tail()
+data.isnull()
+
+***Practical 7***
+import matplotlib.pyplot as plt
+a = [1,2,3,4,5,6,5,4,3,2,1]
+plt.plot(a)
+
+
+from matplotlib import pyplot as plt
+#ploting our canvas
+plt.plot([1,2,3],[4,5,1])
+#display the graph
+plt.show()
+
+
+Bar chart using Matplotlib
+import seaborn as sns
+#Creating the dataset
+df = sns.load_dataset('titanic')
+df=df.groupby('who')['fare'].sum().to_frame().reset_index()
+#Creating the bar chart
+plt.barh(df['who'],df['fare'],color = ['#F0F8FF','#E6E6FA','#B0E0E6'])
+#Adding the aesthetics
+plt.title('Chart title')
+plt.xlabel('X axis title')
+plt.ylabel('Y axis title')
+#Show the plot
+plt.show()
